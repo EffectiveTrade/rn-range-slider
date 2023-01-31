@@ -37,6 +37,7 @@ export interface SliderProps extends ViewProps {
   renderThumb: (name: 'high' | 'low') => ReactNode;
   low?: number;
   high?: number;
+  alwaysShowLabel?: boolean,
   allowLabelOverflow?: boolean;
   disableRange?: boolean;
   disabled?: boolean;
@@ -59,6 +60,7 @@ const Slider: React.FC<SliderProps> = ({
   high: highProp,
   floatingLabel = false,
   allowLabelOverflow = false,
+  alwaysShowLabel = false,
   disableRange = false,
   disabled = false,
   onValueChanged,
@@ -172,6 +174,7 @@ const Slider: React.FC<SliderProps> = ({
     renderLabel,
     isPressed,
     allowLabelOverflow,
+    alwaysShowLabel
   );
   const [notchView, notchUpdate] = useThumbFollower(
     containerWidthRef,
@@ -179,6 +182,7 @@ const Slider: React.FC<SliderProps> = ({
     renderNotch,
     isPressed,
     allowLabelOverflow,
+    alwaysShowLabel
   );
   const lowThumb = renderThumb('low');
   const highThumb = renderThumb('high');
