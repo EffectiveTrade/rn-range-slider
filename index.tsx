@@ -114,8 +114,11 @@ const Slider: React.FC<SliderProps> = ({
     const {current: lowThumbX} = lowThumbXRef;
     const lowPosition =
       ((low - min) / (max - min)) * (containerWidth - thumbWidth);
+    const lowPositionWithHalfThumb = lowPosition + thumbWidth / 2
+    gestureStateRef.current.lastPosition = lowPositionWithHalfThumb;
+    gestureStateRef.current.lastValue = low;
     labelUpdate &&
-    labelUpdate(lowPosition + thumbWidth / 2, low);
+    labelUpdate(lowPositionWithHalfThumb, low);
     lowThumbX.setValue(lowPosition);
     updateSelectedRail();
     onValueChanged?.(low, high, false);
