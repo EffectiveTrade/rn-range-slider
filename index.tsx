@@ -305,9 +305,8 @@ const Slider: React.FC<SliderProps> = ({
   );
 
   return (
-      <View {...panHandlers} {...restProps}>
-        <View {...labelContainerProps}
-        >
+      <View {...restProps}>
+        <View {...labelContainerProps}>
           {labelView}
           {notchView}
         </View>
@@ -325,6 +324,11 @@ const Slider: React.FC<SliderProps> = ({
               <Animated.View style={highStyles}>{highThumb}</Animated.View>
           )}
         </View>
+        <View
+            {...panHandlers}
+            style={styles.touchableArea}
+            collapsable={false}
+        />
       </View>
   );
 };
