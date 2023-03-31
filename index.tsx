@@ -305,31 +305,27 @@ const Slider: React.FC<SliderProps> = ({
   );
 
   return (
-    <View {...restProps}>
-      <View {...labelContainerProps}>
-        {labelView}
-        {notchView}
-      </View>
-      <View onLayout={handleContainerLayout} style={styles.controlsContainer}>
-        <View style={railContainerStyles}>
-          {renderRail()}
-          <Animated.View style={selectedRailStyle}>
-            {renderRailSelected()}
-          </Animated.View>
+      <View {...panHandlers} {...restProps}>
+        <View {...labelContainerProps}
+        >
+          {labelView}
+          {notchView}
         </View>
-        <Animated.View style={lowStyles} onLayout={handleThumbLayout}>
-          {lowThumb}
-        </Animated.View>
-        {!disableRange && (
-          <Animated.View style={highStyles}>{highThumb}</Animated.View>
-        )}
-        <View
-          {...panHandlers}
-          style={styles.touchableArea}
-          collapsable={false}
-        />
+        <View onLayout={handleContainerLayout} style={styles.controlsContainer}>
+          <View style={railContainerStyles}>
+            {renderRail()}
+            <Animated.View style={selectedRailStyle}>
+              {renderRailSelected()}
+            </Animated.View>
+          </View>
+          <Animated.View style={lowStyles} onLayout={handleThumbLayout}>
+            {lowThumb}
+          </Animated.View>
+          {!disableRange && (
+              <Animated.View style={highStyles}>{highThumb}</Animated.View>
+          )}
+        </View>
       </View>
-    </View>
   );
 };
 
