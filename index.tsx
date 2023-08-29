@@ -42,6 +42,7 @@ export interface SliderProps extends ViewProps {
   disableRange?: boolean;
   disabled?: boolean;
   floatingLabel?: boolean;
+  touchableArea?: { top?: number, bottom?: number, left?: number, right?: number }
   renderLabel?: (value: number) => ReactNode;
   renderNotch?: (value: number) => ReactNode;
   renderRail: () => ReactNode;
@@ -56,6 +57,7 @@ const Slider: React.FC<SliderProps> = ({
   max,
   minRange = 0,
   step,
+  touchableArea,
   low: lowProp,
   high: highProp,
   floatingLabel = false,
@@ -197,7 +199,7 @@ const Slider: React.FC<SliderProps> = ({
   const {panHandlers} = useMemo(
     () =>
       PanResponder.create({
-        onStartShouldSetPanResponderCapture: falseFunc,
+        onStartShouldSetPanResponderCapture: trueFunc,
         onMoveShouldSetPanResponderCapture: falseFunc,
         onPanResponderTerminationRequest: falseFunc,
         onPanResponderTerminate: trueFunc,
@@ -253,7 +255,8 @@ const Slider: React.FC<SliderProps> = ({
               minValue,
               maxValue,
             );
-            if (gestureStateRef.current.lastValue === value) {
+            onValueChanged?.(isLow ? value : low, isLow ? high : value, true);
+            if (gestureStateRef.current.lastValue === value || (low === gestureStateRef.current.lastValue)) {
               return;
             }
             const availableSpace = containerWidth - thumbWidth;
@@ -263,7 +266,6 @@ const Slider: React.FC<SliderProps> = ({
             gestureStateRef.current.lastPosition =
               absolutePosition + thumbWidth / 2;
             (isLow ? lowThumbX : highThumbX).setValue(absolutePosition);
-            onValueChanged?.(isLow ? value : low, isLow ? high : value, true);
             (isLow ? setLow : setHigh)(value);
             labelUpdate &&
             labelUpdate(gestureStateRef.current.lastPosition, value);
@@ -326,7 +328,7 @@ const Slider: React.FC<SliderProps> = ({
         </View>
         <View
             {...panHandlers}
-            style={styles.touchableArea}
+            style={[styles.touchableArea, touchableArea]}
             collapsable={false}
         />
       </View>
